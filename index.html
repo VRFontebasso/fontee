@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Landing Page com Efeito de Scroll</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            overflow-x: hidden; /* Evitar rolagem horizontal */
+        }
+
+        header {
+            position: fixed;
+            width: 100%;
+            top: 0;
+            left: 0;
+            background: rgba(0, 0, 0, 0.9);
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000; /* Certifique-se de que o header está acima da imagem */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            transition: background 0.3s ease;
+        }
+
+        header:hover {
+            background: rgba(0, 0, 0, 0.7);
+        }
+
+        header .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: rgb(23, 119, 255);
+            text-shadow: 0 0 10px rgb(23, 119, 255);
+            transition: transform 0.3s ease;
+        }
+
+        header .logo:hover {
+            transform: scale(1.1);
+        }
+
+        header nav ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+        }
+
+        header nav ul li {
+            margin: 0 15px;
+        }
+
+        header nav ul li a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 16px;
+            position: relative;
+            padding: 5px;
+            transition: color 0.3s ease, transform 0.3s ease;
+        }
+
+        header nav ul li a::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+            height: 2px;
+            background: rgb(23, 119, 255);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+            transform-origin: bottom right;
+        }
+
+        header nav ul li a:hover::after {
+            transform: scaleX(1);
+            transform-origin: bottom left;
+        }
+
+        header nav ul li a:active {
+            transform: scale(0.95);
+        }
+
+        .hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: url('your-background-image.jpg') no-repeat center center/cover;
+            text-align: center;
+            animation: fadeIn 2s ease-in;
+            position: relative;
+            overflow: hidden;
+            z-index: 0; /* Certifique-se de que a imagem está atrás do conteúdo */
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .hero h1 {
+            font-size: 48px;
+            margin: 0;
+            animation: slideIn 1s ease-out;
+            color: #fff;
+        }
+
+        .hero p {
+            font-size: 24px;
+            margin-top: 10px;
+            animation: slideIn 1.5s ease-out;
+            color: #fff;
+        }
+
+        section {
+            padding: 80px 20px;
+            position: relative;
+            transition: background 0.5s ease;
+            z-index: 1; /* Certifique-se de que as seções estão acima da imagem */
+        }
+
+        section:nth-of-type(even) {
+            background: #222;
+        }
+
+        section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.1);
+            z-index: -1;
+            transform: skewY(-1deg);
+            transition: opacity 0.5s ease;
+            opacity: 0.5;
+        }
+
+        section:hover::before {
+            opacity: 0.7;
+        }
+
+        section h2 {
+            font-size: 36px;
+            border-bottom: 2px solid rgb(23, 119, 255);
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+            transition: color 0.3s ease;
+        }
+
+        section h2:hover {
+            color: rgb(23, 119, 255);
+            transform: translateY(-5px);
+        }
+
+        .service {
+            background: #333;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            transition: background 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .service::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: rgb(23, 119, 255);
+            transform: scaleX(0);
+            transform-origin: bottom left;
+            transition: transform 0.3s ease;
+        }
+
+        .service:hover::before {
+            transform: scaleX(1);
+        }
+
+        .service:hover {
+            background: #444;
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgb(65, 139, 243);
+        }
+
+        footer {
+            background: rgba(0, 0, 0, 0.8);
+            padding: 10px;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateY(20px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        #3d-animation {
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #222;
+            perspective: 1000px; /* Profundidade da perspectiva 3D */
+            z-index: 1; /* Certifique-se de que a animação 3D está acima da imagem */
+        }
+
+        .container {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            width: 100%;
+            max-width: 1200px;
+            flex-wrap: wrap;
+        }
+
+        .box {
+            width: 200px;
+            height: 200px;
+            background: linear-gradient(135deg, #333, #444);
+            color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            transform-style: preserve-3d;
+            transform: rotateX(0deg) rotateY(0deg);
+            transition: transform 1s ease-in-out, box-shadow 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+            margin: 10px;
+        }
+
+        .box:hover {
+            transform: rotateX(10deg) rotateY(10deg);
+            box-shadow: 0 12px 24px rgb(0, 76, 255);
+        }
+
+        .box h2, .box p {
+            margin: 0;
+            padding: 10px;
+            text-align: center;
+            z-index: 1;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+            }
+
+            .box {
+                width: 80%;
+                height: auto;
+                margin-bottom: 20px;
+            }
+        }
+
+        .header-image {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: -1; /* Certifique-se de que a imagem está atrás do conteúdo */
+        }
+
+        .header-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .content {
+            position: relative;
+            padding-top: 100vh; /* Para que o conteúdo comece logo após a imagem */
+            z-index: 1; /* O conteúdo deve ficar acima da imagem */
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            text-align: center;
+        }
+
+        .content h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+        }
+
+        .content p {
+            font-size: 1.2rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="header-image">
+        <img src="desktop-wallpaper-psychedelic-hippie-psychedelics.jpg" alt="Imagem Topo" id="topImage">
+    </div>
+    <div class="content" id="content">
+        <h1>Desenvolvimento de Landing Page e Designer Gráfico</h1>
+    </div>
+    <header>
+        <div class="logo">Fonte Code</div>
+        <nav>
+            <ul>
+                <li><a href="#about">Sobre</a></li>
+                <li><a href="#services">Serviços</a></li>
+                <li><a href="#contact">Contato</a></li>
+            </ul>
+        </nav>
+    </header>
+    
+    <section id="about">
+        <h2>Sobre Nós</h2>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce sit amet ligula eget nisl.</p>
+    </section>
+    <section id="services">
+        <h2>Serviços</h2>
+        <div class="service">
+            <h3>Serviço 1</h3>
+            <p>Descrição do serviço.</p>
+        </div>
+        <div class="service">
+            <h3>Serviço 2</h3>
+            <p>Descrição do serviço.</p>
+        </div>
+    </section>
+    <section id="contact">
+        <h2>Contato</h2>
+        <p>Entre em contato conosco.</p>
+    </section>
+    <section id="3d-animation">
+        <div class="container">
+            <div class="box">
+                <h2>Box 1</h2>
+                <p>Detalhes da caixa 1</p>
+            </div>
+            <div class="box">
+                <h2>Box 2</h2>
+                <p>Detalhes da caixa 2</p>
+            </div>
+            <div class="box">
+                <h2>Box 3</h2>
+                <p>Detalhes da caixa 3</p>
+            </div>
+        </div>
+    </section>
+    <footer>
+        <p>&copy; 2024 Fonte Code. Todos os direitos reservados.</p>
+    </footer>
+
+    <script>
+        window.addEventListener('scroll', function() {
+            const imageContainer = document.querySelector('.header-image');
+            const content = document.getElementById('content');
+
+            let scrollPos = window.scrollY;
+
+            // Reduz a opacidade da imagem conforme o scroll
+            imageContainer.style.opacity = 1 - scrollPos / 600;
+
+            // Aumenta a escala da imagem levemente enquanto rola
+            let scaleValue = 1 + scrollPos / 1000;
+            imageContainer.style.transform = `scale(${scaleValue})`;
+
+            // Mostra o conteúdo quando o usuário rola o suficiente
+            if (scrollPos > 400) {
+                content.style.opacity = '1';
+            } else {
+                content.style.opacity = '0';
+            }
+        });
+
+        // Adiciona suavidade ao scroll para links âncoras
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+</body>
+</html>
